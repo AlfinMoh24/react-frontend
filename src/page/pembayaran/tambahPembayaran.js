@@ -52,7 +52,7 @@ const TambahPembayaran = () => {
         try {
             await axios.post('http://localhost:8000/api/pembayaran', formData);
             setAlert({ message: 'Pembayaran berhasil ditambahkan!', type: 'success' });
-            setTimeout(() => navigate('/pembayaran'), 2000); 
+            setTimeout(() => navigate('/pembayaran'), 500); 
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Gagal menambahkan pembayaran. Periksa kembali input.';
             setAlert({ message: errorMessage, type: 'danger' });

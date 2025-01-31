@@ -8,8 +8,8 @@ DataTable.use(DT);
 
 const PemasukanPage = () => {
     const [pemasukanData, setPemasukanData] = useState([]);
-    const [filterBulan, setFilterBulan] = useState(new Date().getMonth() + 1);
-    const [filterTahun, setFilterTahun] = useState(new Date().getFullYear());
+    const [filterBulan, setFilterBulan] = useState(1);
+    const [filterTahun, setFilterTahun] = useState(2025);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 

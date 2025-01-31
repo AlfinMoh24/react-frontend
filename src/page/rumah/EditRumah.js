@@ -39,7 +39,7 @@ const EditRumah = () => {
         try {
             await axios.put(`http://localhost:8000/api/rumah/${id}`, rumah);
             setSuccess("Rumah berhasil diperbarui!");
-            setTimeout(() => navigate(`/rumah/${id}`), 2000); // Redirect setelah 2 detik
+            setTimeout(() => navigate(`/rumah/${id}`), 500); // Redirect setelah 2 detik
         } catch (error) {
             setError("Kode Rumah Sudah digunakan.");
         } finally {

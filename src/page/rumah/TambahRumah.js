@@ -40,7 +40,7 @@ const TambahRumah = () => {
             });
             setSuccess(true);
             setLoading(false);
-            setTimeout(() => navigate('/rumah'), 1200);
+            setTimeout(() => navigate('/rumah'), 500);
         } catch (err) {
             setLoading(false);
             setError(err.response?.data?.message || 'Terjadi kesalahan');

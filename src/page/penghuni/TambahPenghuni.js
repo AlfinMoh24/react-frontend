@@ -72,7 +72,7 @@ const TambahPenghuni = () => {
             });
             setLoading(false);
             setSuccess(true); // Tampilkan alert sukses
-            setTimeout(() => navigate('/penghuni'), 1200);
+            setTimeout(() => navigate('/penghuni'), 500);
         } catch (err) {
             setLoading(false);
             setError(err.response?.data?.message || 'Terjadi kesalahan');

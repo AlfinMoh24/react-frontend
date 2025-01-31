@@ -32,7 +32,7 @@ const TambahPemasukan = () => {
                 setMessage("Pemasukan berhasil ditambahkan!");
                 setTimeout(() => {
                     navigate('/pemasukan');
-                }, 2000);
+                }, 500);
             } else {
                 setMessage(response.data.message || "Terjadi kesalahan.");
             }

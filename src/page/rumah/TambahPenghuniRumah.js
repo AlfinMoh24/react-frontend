@@ -35,7 +35,7 @@ const TambahPenghuniRumah = () => {
             });
 
             setSuccess(true); // Tampilkan alert sukses
-            setTimeout(() => navigate(`/rumah/${id}`), 1200);
+            setTimeout(() => navigate(`/rumah/${id}`), 500);
         } catch (err) {
             setLoading(false);
             setError(err.response?.data?.message || 'Terjadi kesalahan');

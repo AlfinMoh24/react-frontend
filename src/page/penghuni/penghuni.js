@@ -11,8 +11,8 @@ const Penghuni = () => {
   const [penghuni, setPenghuni] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [showBackdrop, setShowBackdrop] = useState(false);    // State untuk modal
-  const [selectedId, setSelectedId] = useState(null); // ID penghuni yang dipilih untuk dihapus
+  const [showBackdrop, setShowBackdrop] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const navigate = useNavigate();
   const [loadingButton, setLoadingButton] = useState(false);
 
@@ -32,38 +32,15 @@ const Penghuni = () => {
     console.log('Resize observed!');
   });
 
-  const columns = [
-    { title: 'No', data: 'id', render: (data, type, row, meta) => meta.row + 1 },
-    { title: 'Nama Lengkap', data: 'nama_lengkap' },
-    { title: 'Nomor Telepon', data: 'nomor_telepon' },
-    { title: 'Status Penghuni', data: 'status_penghuni' },
-    {
-      title: 'Aksi',
-      data: 'id',
-      render: (data) => `
-        <button class="me-1 btn btn-success fs-9 text-white p-1 px-2" style="background-color: #4e008593;" onclick="window.location.href='/penghuni/${data}'">
-          <i class="fa-solid fa-circle-info"></i>
-        </button>
-        <button class="btn btn-warning fs-9 text-white p-1 px-2" onclick="window.location.href='/penghuni/edit/${data}'">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-        <button class="btn btn-danger fs-9 text-white p-1 px-2" id="delete-btn-${data}" data-id="${data}">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      `,
-      orderable: false
-    }
-  ];
-
   const handleDeleteClick = (id) => {
-    setSelectedId(id);  // Menyimpan ID penghuni yang ingin dihapus
+    setSelectedId(id);
     setShowModal(true);
-    setShowBackdrop(true); // Menampilkan modal konfirmasi
+    setShowBackdrop(true);
   };
 
   const handleDelete = () => {
     axios.delete(`http://localhost:8000/api/penghuni/${selectedId}`)
-      .then(response => {
+      .then(() => {
         setPenghuni(penghuni.filter(p => p.id !== selectedId));
         setLoadingButton(true);
         window.location.reload();
@@ -79,27 +56,42 @@ const Penghuni = () => {
     setShowBackdrop(false);
   };
 
-  // Handle delete button clicks in a more React-friendly way
-  useEffect(() => {
-    // Adding event listener for the delete buttons after the table is rendered
-    const deleteButtons = document.querySelectorAll('.btn-danger');
-    deleteButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const id = button.getAttribute('data-id');
-        handleDeleteClick(id);
-      });
-    });
+  const columns = [
+    { title: 'No', data: 'id', render: (data, type, row, meta) => meta.row + 1 },
+    { title: 'Nama Lengkap', data: 'nama_lengkap' },
+    { title: 'Nomor Telepon', data: 'nomor_telepon' },
+    { title: 'Status Penghuni', data: 'status_penghuni' },
+    {
+      title: 'Aksi',
+      data: 'id',
+      render: (data) => `
+        <button class="me-1 btn btn-success fs-9 text-white p-1 px-2" style="background-color: #4e008593;" onclick="window.location.href='/penghuni/${data}'">
+          <i class="fa-solid fa-circle-info"></i>
+        </button>
+        <button class="btn btn-warning fs-9 text-white p-1 px-2" onclick="window.location.href='/penghuni/edit/${data}'">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <button class="btn btn-danger fs-9 text-white p-1 px-2 delete-btn" data-id="${data}">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      `,
+      orderable: false
+    }
+  ];
 
-    // Clean up the event listeners
-    return () => {
-      deleteButtons.forEach((button) => {
-        button.removeEventListener('click', () => {
-          const id = button.getAttribute('data-id');
-          handleDeleteClick(id);
-        });
-      });
+  useEffect(() => {
+    const handleDeleteEvent = (event) => {
+      if (event.target.closest('.delete-btn')) {
+        const id = event.target.closest('.delete-btn').getAttribute('data-id');
+        handleDeleteClick(id);
+      }
     };
-  }, [penghuni]);
+
+    document.addEventListener('click', handleDeleteEvent);
+    return () => {
+      document.removeEventListener('click', handleDeleteEvent);
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -141,9 +133,7 @@ const Penghuni = () => {
           </div>
         </div>
       </div>
-      {showBackdrop &&
-        <div className="modal-backdrop fade show"></div>
-      }
+      {showBackdrop && <div className="modal-backdrop fade show"></div>}
       {showModal && (
         <div className="modal show" style={{ display: 'block' }}>
           <div className="modal-dialog">
@@ -158,7 +148,7 @@ const Penghuni = () => {
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary fs-8" onClick={closeModal}>Batal</button>
                 <button type="submit" className="btn btn-danger fs-8" disabled={loadingButton} onClick={handleDelete}>
-                  {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : "Hapus"}
+                  {loadingButton ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : "Hapus"}
                 </button>
               </div>
             </div>

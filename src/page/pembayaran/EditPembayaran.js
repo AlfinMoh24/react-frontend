@@ -41,7 +41,7 @@ const EditPembayaran = () => {
             await axios.put(`http://localhost:8000/api/pembayaran/${id}`, formData);
             setAlert({ type: 'success', message: 'Status pembayaran berhasil diperbarui!' });
             setLoading(false);
-            setTimeout(() => navigate('/pembayaran'), 2000); 
+            setTimeout(() => navigate('/pembayaran'), 500); 
         } catch (error) {
             if (error.response) {
                 setAlert({ type: 'danger', message: error.response.data.message || 'Gagal memperbarui status pembayaran.' });

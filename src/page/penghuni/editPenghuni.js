@@ -100,7 +100,7 @@ const EditPenghuni = () => {
             });
             setLoading(false);
             setSuccess(true);
-            setTimeout(() => navigate('/penghuni'), 2200);
+            setTimeout(() => navigate('/penghuni'), 500);
         } catch (err) {
             console.error(err);
             setLoading(false);

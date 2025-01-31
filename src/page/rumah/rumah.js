@@ -31,7 +31,28 @@ const DaftarRumah = () => {
   useResizeObserver(() => {
     console.log('Resize observed!');
   });
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
+    setShowBackdrop(true);
+  };
+  const handleDelete = () => {
+    axios.delete(`http://localhost:8000/api/rumah/${selectedId}`)
+      .then(() => {
+        setRumah(rumah.filter(p => p.id !== selectedId));
+        setLoadingButton(true);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error deleting Rumah:', error);
+        window.location.reload();
+      });
+  };
 
+  const closeModal = () => {
+    setShowModal(false);
+    setShowBackdrop(false);
+  };
   const columns = [
     { title: 'No', data: 'id', render: (data, type, row, meta) => meta.row + 1 },
     { title: 'Kode Rumah', data: 'kode_rumah' },
@@ -43,7 +64,7 @@ const DaftarRumah = () => {
         <button class="me-1 btn btn-success fs-9 text-white p-1 px-2" style="background-color: #4e008593;" onclick="window.location.href='/rumah/${data}'">
           <i class="fa-solid fa-circle-info"></i>
         </button>
-        <button class="btn btn-danger fs-9 text-white p-1 px-2" id="delete-btn-${data}" data-id="${data}">
+        <button class="btn btn-danger fs-9 text-white p-1 px-2 delete-btn" data-id="${data}">
           <i class="fa-solid fa-trash"></i>
         </button>
       `,
@@ -51,50 +72,22 @@ const DaftarRumah = () => {
     }
   ];
 
-  const handleDeleteClick = (id) => {
-    setSelectedId(id);
-    setShowModal(true);
-    setShowBackdrop(true);
-  };
 
-  const handleDelete = () => {
-    setLoadingButton(true);
-    axios.delete(`http://localhost:8000/api/rumah/${selectedId}`)
-      .then((response) => {
-        setRumah(rumah.filter(r => r.id !== selectedId));
-        setLoadingButton(false);
-        window.location.reload(); // Refresh page to reflect changes
-      })
-      .catch((error) => {
-        console.error('Error deleting rumah:', error);
-        setLoadingButton(false);
-        window.location.reload(); // Refresh page even if deletion fails
-      });
-  };
 
-  const closeModal = () => {
-    setShowModal(false);
-    setShowBackdrop(false);
-  };
-
-  useEffect(() => {
-    const deleteButtons = document.querySelectorAll('.btn-danger');
-    deleteButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const id = button.getAttribute('data-id');
+ useEffect(() => {
+    const handleDeleteEvent = (event) => {
+      if (event.target.closest('.delete-btn')) {
+        const id = event.target.closest('.delete-btn').getAttribute('data-id');
         handleDeleteClick(id);
-      });
-    });
-
-    return () => {
-      deleteButtons.forEach((button) => {
-        button.removeEventListener('click', () => {
-          const id = button.getAttribute('data-id');
-          handleDeleteClick(id);
-        });
-      });
+      }
     };
-  }, [rumah]);
+
+    document.addEventListener('click', handleDeleteEvent);
+    return () => {
+      document.removeEventListener('click', handleDeleteEvent);
+    };
+  }, []);
+
 
   if (loading) {
     return (

@@ -56,7 +56,7 @@ const EditPenghuniRumah = () => {
             });
 
             setSuccess("Penghuni berhasil diperbarui!");
-            setTimeout(() => navigate(`/rumah/${id}`), 1500); // Redirect setelah 1.5 detik
+            setTimeout(() => navigate(`/rumah/${id}`), 500); // Redirect setelah 1.5 detik
         } catch (error) {
             setError(error.response?.data?.message || "Gagal memperbarui penghuni.");
         } finally {
