@@ -31,12 +31,5 @@ npm start
 
 Aplikasi akan berjalan di **http://localhost:3000** (default Create React App).  
 
-Fitur  
-✅ CRUD Penghuni  
-✅ CRUD Rumah  
-✅ CRUD Pembayaran  
-✅ Otomatis mencatat pemasukan dari pembayaran  
-✅ Histori penghuni di rumah  
-✅ CRUD Pemasukan dan Pengeluaran  
 
 

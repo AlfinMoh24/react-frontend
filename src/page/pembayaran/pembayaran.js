@@ -15,8 +15,8 @@ const PembayaranPage = () => {
     const [totalPemasukanBulanIni, setTotalPemasukanBulanIni] = useState(0);
     const [totalPengeluaranBulanIni, setTotalPengeluaranBulanIni] = useState(0);
     const [totalSaldo, setTotalSaldo] = useState(0);
-    const [filterBulan, setFilterBulan] = useState(new Date().getMonth() + 1);
-    const [filterTahun, setFilterTahun] = useState(new Date().getFullYear());
+    const [filterBulan, setFilterBulan] = useState(1);
+    const [filterTahun, setFilterTahun] = useState(2025);
     const [loading, setLoading] = useState(true);
 
     // Mengambil data dari API
