@@ -13,8 +13,8 @@ Aplikasi frontend ini digunakan untuk mengelola data penghuni, rumah, pembayaran
 
 ### 1. Clone Repository  
 ```sh
-git clone https://github.com/username/frontend-perumahan.git
-cd frontend-perumahan
+git clone https://github.com/username/react-frontend.git
+cd react-frontend
 ```
 
 ### 2. Install Dependencies  
