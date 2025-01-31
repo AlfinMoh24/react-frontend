@@ -27,7 +27,7 @@ const RekapPembayaran = () => {
         setLoading(true);
         axios.get(`http://localhost:8000/api/rumah/${id}`)
             .then(response => {
-                setRumahDetail(response.data.data.penghuni);
+                setRumahDetail(response.data.data);
                 setLoading(false);
             })
             .catch(error => {
@@ -53,13 +53,13 @@ const RekapPembayaran = () => {
             {/* Tampilkan detail rumah */}
             <div className="card shadow-sm mb-4">
                 <div className="card-header">
-                    <h6 className="card-title mb-0">Detail Rumah</h6>
+                    <h6 className="card-title mb-0">Detail Rumah {rumahDetail.kode_rumah}</h6>
                 </div>
                 <div className="card-body fs-8">
                     {rumahDetail ? (
                         <>
-                            <p><strong>Penghuni Sekarang:</strong> {rumahDetail.nama_lengkap}</p>
-                            <p><strong>Status:</strong> {rumahDetail.status_penghuni}</p>
+                            <p><strong>Penghuni Sekarang:</strong> {rumahDetail.penghuni.nama_lengkap}</p>
+                            <p><strong>Status:</strong> {rumahDetail.penghuni.status_penghuni}</p>
                         </>
                     ) : (
                         <p className="text-muted">Rumah ini belum dihuni.</p>
